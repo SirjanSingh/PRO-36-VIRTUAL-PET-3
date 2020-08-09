@@ -1,6 +1,7 @@
 //Create variables here
 var dog,hDog,database,foodS,foods=20;
 var dogSp;
+var fc;
 function preload()
 {
   //load images here
@@ -33,7 +34,7 @@ var foodStock = database.ref('Food');
 
 function draw() {  
 background(46, 139, 87)
-console.log(foodS,foods)
+//console.log(foodS,foods)
 
 
 
@@ -42,7 +43,19 @@ if(keyWentDown(UP_ARROW)){
   foodS = foodS - 1;
 updateStock(foodS);
 dogSp.addImage(hDog)
+fc = frameCount
+
+
 }
+
+var fc1= fc + 100
+if(frameCount>fc1){
+  dogSp.addImage(dog)
+
+}
+console.log(fc)
+
+
 
 
 if(keyWentDown(DOWN_ARROW)){
@@ -70,7 +83,7 @@ pop();
 fill("black")
 stroke("yellow");
 textSize(18);
-text("PRESS DOWN ARROW KEY TO INCREASE FOODSTOCK" , 5 ,475);
+//text("PRESS DOWN ARROW KEY TO INCREASE FOODSTOCK" , 5 ,475);
 
 
 
