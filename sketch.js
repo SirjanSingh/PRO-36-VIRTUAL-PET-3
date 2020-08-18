@@ -141,6 +141,7 @@ if(lastFedH >= 12){
 //
 
 drawSprites();
+
 foodObj.display();
   }
 

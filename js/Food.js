@@ -36,7 +36,7 @@ database.ref('/').update({
     display(){
          var x= 80 , y = 100;
          imageMode(CENTER);
-       // image(this.image,200,200,50,50)
+       //  image(this.image,200,200,50,50)
 
         if(this.foodStock != 0){
 
