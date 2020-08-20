@@ -33,11 +33,39 @@ database.ref('/').update({
             'lastFed' : lastFed
         })
     }
+
+    updateState(state){
+        database.ref('/').update({
+            'gameState' : state
+        })
+    }
+
+    bedroom(){
+background(bRoomI);
+    }
+
+    garden(){
+background(gardenI);
+    }
+
+    washroom(){
+background(wRoomI);
+    }
     display(){
          var x= 80 , y = 100;
          imageMode(CENTER);
        //  image(this.image,200,200,50,50)
 
+       if(lastFedF != undefined){
+
+       if(lastFedF>=12){
+        text("Last Feed : "+ lastFedF%12 + lastFedM+" PM", 150,75);
+    }else if(lastFedF==0){
+        text("Last Feed : 12 AM",150,75);
+    }else{
+        text("Last Feed : "+ lastFedF + lastFedM + " AM", 150,75);
+    }
+       }
         if(this.foodStock != 0){
 
            for(var i =0;i<this.foodStock;i++){

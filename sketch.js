@@ -8,11 +8,20 @@ var bFeed,bAdd;
 var feedTime,lastFedH,lastFedM,lastFed;
 var foodObj;
 var lastFedF;
+var changeState,readState;
+var gameState ;
+var bRoomI , gardenI , wRoomI;
+var currentTime ;
+var sadDog
 function preload()
 {
   //load images here
   dog = loadImage("images/dogImg.png");
   hDog = loadImage("images/dogImg1.png");
+  bRoomI = loadImage("images/BedRoom.png") 
+  gardenI = loadImage("images/Garden.png")
+  wRoomI = loadImage("images/WashRoom.png")
+  sadDog = loadImage("images/deadDog.png")
 }
 
 function setup() {
@@ -22,13 +31,14 @@ function setup() {
   createCanvas(500, 500);
   foodObj = new Food(lastFedF ,foods);
 
- // exp = new Food(a,b);
-
-  dogSp = createSprite(450,250,50,50)
+  dogSp = createSprite(250,375,50,50)
 
   dogSp.addImage(dog)
   dogSp.scale = 0.25;
 
+  database.ref('gameState').on("value", (data)=>{
+    gameState = data.val();
+  });
 
 var foodStock = database.ref('Food');
   foodStock.on("value" ,(data)=> {
@@ -36,14 +46,7 @@ var foodStock = database.ref('Food');
   });
   foodObj.getFoodStock();
   console.log(foods)
-  
- /* database.ref('/').update({
-  'Food' : 20
-  })*/
 
-  
-
-  
   //taking value of last fed from database
   var lastFedRef = database.ref('lastFed');
   lastFedRef.on("value",function(data){
@@ -62,20 +65,20 @@ console.log(lastFedF)
   lastFedH = hour();
   lastFedM = minute();
   //lastFed = lastFedH + ":" + lastFedM  + " hours"//+ ":" + lastFedS
-  
-  if(lastFedH >= 12){
-    lastFed=  lastFedH%12 + ":" +lastFedM 
+  /*
+  if(lastFedH > 12){
+    lastFed=  lastFedH%12 
   }
    else if(lastFedH === 0){
      lastFed = 12 
   } 
   else {
-  lastFed=  lastFedH + ":" +lastFedM 
+  lastFed =  lastFedH 
   }
-
-  console.log(lastFed)
+*/
+  console.log(lastFedH)
   
-  foodObj.updateLastFed(lastFed)
+  foodObj.updateLastFed(lastFedH)
 
     foods = foods - 1;
     if(foods<0){
@@ -103,45 +106,57 @@ background(46, 139, 87)
 
 console.log(foodS,foods)
 
-//exp.display()
-  
-
-//foodObj.display();
-
-
-
 var fc1= fc + 100
 if(frameCount>fc1){
   dogSp.addImage(dog)
 
 }
-//console.log(fc)
 
-
-  
- 
-  //add styles here
- 
 fill("black")
 stroke("yellow");
 textSize(20);
 //text("LAST FED "+ lastFedF,150,75)
-if(lastFedF != undefined){
-if(lastFedH >= 12){
- // text("Last Feed : " + lastFedH%12 + ":" +lastFedM +"PM" ,150,75)
- text("Last feed :"+ lastFedF + " AM",150,75)
-} else if(lastFedH === 0){
-  text("Last Feed : 12 AM" ,150,75);
-} else {
-  text("Last Feed : "+lastFedF +" PM" ,150,75);
-}
-}
+
+
 //console.log(lastFedF)
 
-//
+//starting the new game GAMESTATES
 
+currentTime = hour() ;
+console.log(currentTime)
+console.log(lastFedF)
+console.log(gameState)
+if(currentTime=== lastFedF+1){
+  foodObj.updateState("playing")
+  foodObj.garden()
+}
+if(currentTime === lastFedF+2){
+  foodObj.updateState("sleeping")
+  foodObj.bedroom()
+}
+else if(currentTime> (lastFedF +2) && currentTime<=(lastFedF+4)){
+  foodObj.updateState("bathing")
+  foodObj.washroom();
+}
+
+else {
+  foodObj.updateState("hungry")
+  foodObj.display()
+}
+
+if(gameState != "hungry"){
+  bFeed.hide();
+  bAdd.hide();
+  dogSp.remove();
+  }
+  else{
+    bFeed.show();
+   bAdd.show();
+   //dogSp.addImage(sadDog)
+  }
+  
+  
 drawSprites();
 
-foodObj.display();
   }
 
