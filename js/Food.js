@@ -59,11 +59,11 @@ background(wRoomI);
        if(lastFedF != undefined){
 
        if(lastFedF>=12){
-        text("Last Feed : "+ lastFedF%12 + lastFedM+" PM", 150,75);
+        text("Last Feed : "+ lastFedF%12 +" PM", 150,75);
     }else if(lastFedF==0){
         text("Last Feed : 12 AM",150,75);
     }else{
-        text("Last Feed : "+ lastFedF + lastFedM + " AM", 150,75);
+        text("Last Feed : "+ lastFedF + " AM", 150,75);
     }
        }
         if(this.foodStock != 0){

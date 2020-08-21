@@ -52,6 +52,7 @@ var foodStock = database.ref('Food');
   lastFedRef.on("value",function(data){
     lastFedF= data.val()
   });
+  
 console.log(lastFedF)
 
   bAdd = createButton('Add Food');
@@ -91,8 +92,8 @@ console.log(lastFedF)
 
   bAdd.mousePressed(()=>{
     foods = foods + 1;
-    if(foods>40){
-      foods -= 1;
+    if(foods>30){
+      foods =30;
       }
     foodObj.updateFoodStock(foods);
   });
@@ -130,7 +131,7 @@ if(currentTime=== lastFedF+1){
   foodObj.updateState("playing")
   foodObj.garden()
 }
-if(currentTime === lastFedF+2){
+else if(currentTime === lastFedF+2){
   foodObj.updateState("sleeping")
   foodObj.bedroom()
 }
